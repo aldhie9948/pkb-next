@@ -1,0 +1,11 @@
+.input {
+  @apply border-[1px] border-slate-300 rounded py-1 px-3 outline-none w-full;
+}
+
+.errorInput {
+  @apply border-red-500;
+}
+
+.successInput {
+  @apply border-green-500;
+}

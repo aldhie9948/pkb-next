@@ -9,12 +9,31 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.8.0",
+    "axios": "^0.26.1",
+    "date-fns": "^2.28.0",
+    "formidable": "^2.0.1",
+    "mongoose": "^6.2.7",
+    "mongoose-unique-validator": "^3.0.0",
+    "multer": "^1.4.4",
     "next": "12.1.0",
+    "next-connect": "^0.12.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-data-table-component": "^7.4.7",
+    "react-dom": "17.0.2",
+    "react-icons": "^4.3.1",
+    "react-redux": "^7.2.6",
+    "react-select": "^5.2.2",
+    "redux-thunk": "^2.4.1",
+    "sweetalert2": "^11.4.6",
+    "sweetalert2-react-content": "^4.2.0"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.4",
     "eslint": "8.11.0",
-    "eslint-config-next": "12.1.0"
+    "eslint-config-next": "12.1.0",
+    "postcss": "^8.4.12",
+    "postcss-import": "^14.0.2",
+    "tailwindcss": "^3.0.23"
   }
 }
