@@ -32,7 +32,7 @@ const Layout = ({ children, title }) => {
       <div className='flex gap-1'>
         <NavBar />
         <div className='sm:p-10 p-5 bg-slate-100 shrink w-full overflow-y-auto'>
-          <div className='lg:w-10/12 lg:mx-auto'>{children}</div>
+          <div className='w-full'>{children}</div>
         </div>
       </div>
     </div>

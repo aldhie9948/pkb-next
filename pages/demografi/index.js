@@ -129,7 +129,7 @@ const Demografi = () => {
   return (
     <Layout title={`Demografi`}>
       <h1 className='text-lg font-bold'>Demografi Penduduk Jawa Barat 2022</h1>
-      <div className='flex flex-wrap gap-2 mb-4'>
+      <div className='flex flex-wrap sm:justify-between gap-2 mb-4'>
         <Select
           id='kabupaten-select'
           instanceId='kabupaten-select'
