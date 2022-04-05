@@ -128,7 +128,9 @@ const Demografi = () => {
 
   return (
     <Layout title={`Demografi`}>
-      <h1 className='text-lg font-bold'>Demografi Penduduk Jawa Barat 2022</h1>
+      <h1 className='sm:text-lg font-bold'>
+        Demografi Penduduk Jawa Barat 2022
+      </h1>
       <div className='flex flex-wrap sm:justify-between gap-2 mb-4'>
         <Select
           id='kabupaten-select'
@@ -175,8 +177,8 @@ const Demografi = () => {
                 >
                   <div className='title flex gap-4'>
                     <AiFillCaretDown className='my-auto' />{' '}
-                    <div className='font-bold'>
-                      Kecamatan {district.name}{' '}
+                    <div className='font-bold sm:text-lg text-sm'>
+                      Kec. {district.name}{' '}
                       <small className='bg-blue-400 py-[2px] px-3 rounded-xl shadow text-white text-xs'>
                         {demografi.filter(
                           (f) => f.idDistrict === district.id
@@ -204,17 +206,17 @@ const Demografi = () => {
                     )}
                   </div>
                 </div>
-                <div className='accordion-body my-4 hidden px-5'>
+                <div className='accordion-body my-4 hidden sm:px-5'>
                   {district.villages.map((village) => (
                     <div key={village.id} className='grid grid-cols-6 my-1'>
-                      <small className='block my-auto w-6/12 whitespace-nowrap col-span-3'>
+                      <small className='block my-auto whitespace-nowrap col-span-3'>
                         {village.name}
                       </small>
                       <div className='col-span-3 grid grid-cols-5 gap-2'>
                         <input
                           placeholder={getDemografiTotal(village.id)}
                           type='number'
-                          className='block my-auto outline-none py-1 px-2 border-[1px] border-slate-400 rounded box-border col-span-4'
+                          className='block my-auto outline-none py-1 px-2 border-[1px] border-slate-400 rounded box-border col-span-3 sm:col-span-4'
                         />
                         <button
                           data-id-provincy={provinsi.id}
@@ -223,7 +225,7 @@ const Demografi = () => {
                           data-id-village={village.id}
                           onClick={switchHandler(village.id)}
                           type='button'
-                          className={`block bg-blue-500 text-white rounded shadow px-2 col-span-1 hover:opacity-60 disabled:opacity-80 ${
+                          className={`block bg-blue-500 text-white rounded shadow px-2 sm:col-span-1 col-span-2 hover:opacity-60 disabled:opacity-80 ${
                             isVillageNotEmpty(village.id)
                               ? 'bg-red-500'
                               : 'bg-blue-500'

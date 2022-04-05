@@ -3,7 +3,7 @@ const baseURL = '/api/demografi';
 
 const get = async () => {
   const response = await axios.get(baseURL);
-  return response.data;
+  return response;
 };
 
 const add = async (demografi) => {
@@ -21,6 +21,7 @@ const getByProvincy = async (idVillage) => {
   return response.data;
 };
 
+// eslint-disable-next-line
 export default {
   get,
   getByProvincy,

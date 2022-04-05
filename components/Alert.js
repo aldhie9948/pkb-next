@@ -37,4 +37,5 @@ const confirm = (callback) => {
   });
 };
 
+// eslint-disable-next-line
 export default { toast, confirm };
