@@ -30,6 +30,7 @@ const getDemografi = async (name) => {
   return response.data;
 };
 
+// eslint-disable-next-line
 export default {
   getAllProvinces,
   getProvincy,

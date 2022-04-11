@@ -40,3 +40,6 @@ yarn-error.log*
 
 # jshint
 .jshintrc
+
+# json
+demografis.json

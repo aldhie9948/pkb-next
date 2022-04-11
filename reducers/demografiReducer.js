@@ -45,9 +45,12 @@ export const appendDemografi = (demografi) => {
   };
 };
 
-export const updateDemografi = (idVillage, demografi) => {
+export const updateDemografi = (demografi) => {
   return async (dispatch) => {
-    const response = await demografiService.update(idVillage, demografi);
+    const response = await demografiService.update(
+      demografi.idVillage,
+      demografi
+    );
     dispatch(editDemografi(response));
   };
 };

@@ -19,6 +19,10 @@ const demografiSchema = new mongoose.Schema({
     type: Number,
     unique: true,
   },
+  gender: {
+    pria: Number,
+    wanita: Number,
+  },
   total: {
     required: true,
     type: Number,

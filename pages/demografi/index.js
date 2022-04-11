@@ -10,8 +10,9 @@ import {
   getDemografiByProvincy,
   updateDemografi,
 } from '../../reducers/demografiReducer';
-import { IoSearchCircle } from 'react-icons/io5';
+import { IoSearchCircle, IoMan, IoWoman, IoStatsChart } from 'react-icons/io5';
 import sweetalert2 from '../../components/Alert';
+import { useField } from '../../hooks';
 
 const Demografi = () => {
   const [provinsi, setProvinsi] = useState(null);
@@ -36,83 +37,6 @@ const Demografi = () => {
     e.currentTarget.nextSibling.classList.toggle('hidden');
   };
 
-  const isVillageNotEmpty = (idVillage) => {
-    const array = demografi.filter((f) => f.idVillage === idVillage);
-    return array.length === 0 ? null : array;
-  };
-
-  const switchHandler = (idVillage) => {
-    const village = isVillageNotEmpty(idVillage);
-    if (village) return updateHandler;
-    return saveHandler;
-  };
-
-  const saveHandler = async (e) => {
-    const target = e.currentTarget;
-    const inputValue = Number(target.previousSibling.value);
-    const idProvincy = Number(target.dataset.idProvincy);
-    const idRegency = Number(target.dataset.idRegency);
-    const idDistrict = Number(target.dataset.idDistrict);
-    const idVillage = Number(target.dataset.idVillage);
-
-    if (inputValue <= 0)
-      return sweetalert2.toast('Angka harus lebih dari nol', false);
-
-    const add = {
-      idProvincy,
-      idRegency,
-      idDistrict,
-      idVillage,
-      total: inputValue,
-    };
-
-    try {
-      sweetalert2.confirm(() => {
-        dispatch(appendDemografi(add));
-        target.previousSibling.value = null;
-        sweetalert2.toast('Proses berhasil!');
-      });
-    } catch (error) {
-      console.log(error);
-      sweetalert2.toast(error.message.toString(), false);
-    }
-  };
-
-  const updateHandler = async (e) => {
-    console.log(e);
-    const target = e.currentTarget;
-    const inputValue = Number(target.previousSibling.value);
-    const idProvincy = Number(target.dataset.idProvincy);
-    const idRegency = Number(target.dataset.idRegency);
-    const idDistrict = Number(target.dataset.idDistrict);
-    const idVillage = Number(target.dataset.idVillage);
-    if (inputValue <= 0)
-      return sweetalert2.toast('Angka harus lebih dari nol', false);
-
-    const update = {
-      idProvincy,
-      idRegency,
-      idDistrict,
-      idVillage,
-      total: inputValue,
-    };
-    try {
-      sweetalert2.confirm(() => {
-        dispatch(updateDemografi(idVillage, update));
-        target.previousSibling.value = null;
-        sweetalert2.toast('Proses berhasil!');
-      });
-    } catch (error) {
-      console.log(error);
-      sweetalert2.toast(error.message.toString(), false);
-    }
-  };
-
-  const getDemografiTotal = (idVillage) => {
-    const village = demografi.find((d) => d.idVillage === Number(idVillage));
-    return village && village.total;
-  };
-
   const searchHandler = (e) => {
     const value = e.currentTarget.value;
     setSearchDistrict(value);
@@ -124,6 +48,128 @@ const Demografi = () => {
       );
       return { ...current, districts: district };
     });
+  };
+
+  const FormInput = ({ provincy, regency, district, village }) => {
+    const pria = useField('number');
+    const wanita = useField('number');
+    const [isUpdate, setIsUpdate] = useState(false);
+
+    const isVillageNotEmpty = (idVillage) => {
+      const array = demografi.filter((f) => f.idVillage === idVillage);
+      return array.length === 0 ? null : array;
+    };
+
+    const getDemografiTotal = (idVillage) => {
+      const village = demografi.find((d) => d.idVillage === Number(idVillage));
+      if (!village) return { total: 0, pria: 0, wanita: 0 };
+      const {
+        total,
+        gender: { pria, wanita },
+      } = village;
+      return { total, pria, wanita };
+    };
+
+    const switchHandler = (idVillage) => {
+      const village = isVillageNotEmpty(idVillage);
+      if (village) return setIsUpdate(true);
+      return setIsUpdate(false);
+    };
+
+    useEffect(() => {
+      switchHandler(village.id);
+      // eslint-disable-next-line
+    }, []);
+
+    const submitHandler = async () => {
+      if (Number(pria.value) <= 0 || Number(wanita.value) <= 0)
+        return sweetalert2.toast('Angka tidak boleh nol', false);
+      const idProvincy = Number(provincy.id);
+      const idRegency = Number(regency.id);
+      const idDistrict = Number(district.id);
+      const idVillage = Number(village.id);
+      const gender = {
+        pria: Number(pria.value),
+        wanita: Number(wanita.value),
+      };
+      const total = Object.values(gender).reduce((a, b) => a + b, 0);
+      const save = {
+        idProvincy,
+        idRegency,
+        idDistrict,
+        idVillage,
+        gender,
+        total,
+      };
+
+      try {
+        sweetalert2.confirm(() => {
+          const action = isUpdate
+            ? updateDemografi(save)
+            : appendDemografi(save);
+          dispatch(action);
+          pria.reset();
+          wanita.reset();
+          sweetalert2.toast('Proses berhasil!');
+        });
+      } catch (error) {
+        console.log(error);
+        sweetalert2.toast(error.message.toString(), false);
+      }
+    };
+
+    return (
+      <div>
+        <div className='flex gap-2 justify-end my-1'>
+          <small className='block my-auto text-ellipsis overflow-hidden whitespace-nowrap sm:flex-grow sm:w-4/12 w-5/12'>
+            {village.name}
+          </small>
+          <div className='flex gap-2'>
+            <div className='flex gap-1 border rounded bg-slate-100'>
+              <IoMan className='my-auto' />
+              <input
+                {...pria.attr}
+                placeholder={getDemografiTotal(
+                  village.id
+                ).pria.toLocaleString()}
+                type='number'
+                className='block pl-1 w-16 sm:w-24 outline-none caret-green-500'
+              />
+            </div>
+            <div className='flex gap-1 border rounded bg-slate-100'>
+              <IoWoman className='my-auto' />
+              <input
+                {...wanita.attr}
+                placeholder={getDemografiTotal(
+                  village.id
+                ).wanita.toLocaleString()}
+                type='number'
+                className='block pl-1 w-16 sm:w-24 outline-none caret-green-500'
+              />
+            </div>
+          </div>
+          <button
+            type='button'
+            onClick={submitHandler}
+            className={`flex gap-1 text-xs rounded shadow w-20 px-2 sm:col-span-1 col-span-2 hover:opacity-60 disabled:opacity-80 ${
+              isVillageNotEmpty(village.id)
+                ? 'bg-red-200 text-red-500'
+                : 'bg-blue-200 text-blue-500'
+            }`}
+            title={isVillageNotEmpty(village.id) ? 'Update' : 'Simpan'}
+          >
+            {isVillageNotEmpty(village.id) ? (
+              <AiFillEdit className='my-auto' />
+            ) : (
+              <FaCheck className='my-auto' />
+            )}
+            <div className='my-auto'>
+              {getDemografiTotal(village.id).total.toLocaleString()}
+            </div>
+          </button>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -208,40 +254,13 @@ const Demografi = () => {
                 </div>
                 <div className='accordion-body my-4 hidden sm:px-5'>
                   {district.villages.map((village) => (
-                    <div key={village.id} className='grid grid-cols-6 my-1'>
-                      <small className='block my-auto whitespace-nowrap col-span-3'>
-                        {village.name}
-                      </small>
-                      <div className='col-span-3 grid grid-cols-5 gap-2'>
-                        <input
-                          placeholder={getDemografiTotal(village.id)}
-                          type='number'
-                          className='block my-auto outline-none py-1 px-2 border-[1px] border-slate-400 rounded box-border col-span-3 sm:col-span-4'
-                        />
-                        <button
-                          data-id-provincy={provinsi.id}
-                          data-id-regency={kabupaten.id}
-                          data-id-district={district.id}
-                          data-id-village={village.id}
-                          onClick={switchHandler(village.id)}
-                          type='button'
-                          className={`block bg-blue-500 text-white rounded shadow px-2 sm:col-span-1 col-span-2 hover:opacity-60 disabled:opacity-80 ${
-                            isVillageNotEmpty(village.id)
-                              ? 'bg-red-500'
-                              : 'bg-blue-500'
-                          }`}
-                          title={
-                            isVillageNotEmpty(village.id) ? 'Update' : 'Simpan'
-                          }
-                        >
-                          {isVillageNotEmpty(village.id) ? (
-                            <AiFillEdit className='mx-auto' />
-                          ) : (
-                            <FaCheck className='mx-auto' />
-                          )}
-                        </button>
-                      </div>
-                    </div>
+                    <FormInput
+                      key={village.id}
+                      provincy={provinsi}
+                      regency={kabupaten}
+                      district={district}
+                      village={village}
+                    />
                   ))}
                 </div>
               </div>
