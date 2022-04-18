@@ -2,31 +2,40 @@ import mongoose from 'mongoose';
 import validator from 'mongoose-unique-validator';
 
 const demografiSchema = new mongoose.Schema({
-  idProvincy: {
-    required: true,
-    type: Number,
+  regions: {
+    provincy: { required: true, type: Number },
+    regency: { required: true, type: Number },
+    district: { required: true, type: Number },
+    village: { required: true, type: Number, unique: true },
   },
-  idRegency: {
-    required: true,
-    type: Number,
+  category: {
+    gender: {
+      pria: Number,
+      wanite: Number,
+    },
+    age: Object,
+    education: {
+      tbs: Number,
+      btsd: Number,
+      sd: Number,
+      smp: Number,
+      sma: Number,
+      diploma: Number,
+      d3: Number,
+      s1: Number,
+      s2: Number,
+      s3: Number,
+    },
+    religions: {
+      islam: Number,
+      kristen: Number,
+      khatolik: Number,
+      hindu: Number,
+      budha: Number,
+      lainnya: Number,
+    },
   },
-  idDistrict: {
-    required: true,
-    type: Number,
-  },
-  idVillage: {
-    required: true,
-    type: Number,
-    unique: true,
-  },
-  gender: {
-    pria: Number,
-    wanita: Number,
-  },
-  total: {
-    required: true,
-    type: Number,
-  },
+  total: Number,
 });
 
 demografiSchema.plugin(validator);

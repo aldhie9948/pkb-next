@@ -451,16 +451,16 @@ const Anggota = ({ data = null }) => {
     <Layout title='Anggota'>
       <h1 className='md:text-lg font-bold'>Anggota PKB Jawa Barat</h1>
       <div className='my-2 flex flex-wrap gap-4'>
-        <div className='group w-max relative'>
+        <div className='w-max relative'>
           <button
             onClick={tambahHandler}
-            className='p-2 bg-green-500 rounded-lg shadow text-white hover:rounded duration-100 active:bg-green-700'
+            className='p-2 group flex gap-2 bg-green-500 rounded-lg shadow text-white hover:rounded duration-100 active:bg-green-700'
           >
             <IoAddCircleSharp size='1.5em' />
+            <div className=''>
+              <span>Tambah Anggota</span>
+            </div>
           </button>
-          <div className='absolute left-[-3em] z-[99999] text-white text-sm  p-1 px-2 my-1 scale-0 duration-100 bg-black w-max rounded group-hover:scale-100'>
-            Tambah Anggota
-          </div>
         </div>
       </div>
       {visibleForm && (
