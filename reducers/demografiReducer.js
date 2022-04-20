@@ -13,7 +13,7 @@ const demografiSlice = createSlice({
     },
     editDemografi: (state, action) => {
       const newDemografi = state.filter(
-        (f) => f.idVillage !== action.payload.idVillage
+        (f) => f.regions.village !== action.payload.regions.village
       );
       return [...newDemografi, action.payload];
     },
@@ -47,10 +47,7 @@ export const appendDemografi = (demografi) => {
 
 export const updateDemografi = (demografi) => {
   return async (dispatch) => {
-    const response = await demografiService.update(
-      demografi.idVillage,
-      demografi
-    );
+    const response = await demografiService.update(demografi);
     dispatch(editDemografi(response));
   };
 };

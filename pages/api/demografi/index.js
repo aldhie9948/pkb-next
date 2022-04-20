@@ -15,6 +15,7 @@ handler.post(async (req, res) => {
 
   try {
     const body = req.body;
+    console.log(body);
     const demografi = new Demografi(body);
     const savedDemografi = await demografi.save();
     res.status(201).json(savedDemografi);

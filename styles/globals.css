@@ -20,10 +20,10 @@ body {
     @apply flex-grow p-1 flex border-[1px] border-slate-400 rounded-lg;
   }
   .error-input {
-    @apply border-red-500;
+    @apply border-red-500 placeholder:text-red-500/50;
   }
   .success-input {
-    @apply border-green-500;
+    @apply border-green-500 placeholder:text-green-500/50;
   }
   .input {
     @apply block outline-none w-full border rounded py-1 px-2 sm:text-base text-xs;
@@ -88,8 +88,8 @@ body {
     height: 80px;
   }
   .lds-ripple div {
+    @apply border-[4px] border-green-500;
     position: absolute;
-    border: 4px solid #fff;
     opacity: 1;
     border-radius: 50%;
     -webkit-animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;

@@ -18,7 +18,7 @@ handler.put(async (req, res) => {
 
   try {
     const body = req.body;
-    const oldDemografi = await Demografi.find({ idVillage: id });
+    const oldDemografi = await Demografi.find({ 'regions.village': id });
     if (!oldDemografi) throw new Error('404');
     const updatedDemografi = await Demografi.findByIdAndUpdate(
       oldDemografi[0]._id,

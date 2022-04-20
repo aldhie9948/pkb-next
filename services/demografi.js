@@ -11,8 +11,11 @@ const add = async (demografi) => {
   return response.data;
 };
 
-const update = async (idVillage, demografi) => {
-  const response = await axios.put(`${baseURL}/${idVillage}`, demografi);
+const update = async (demografi) => {
+  const response = await axios.put(
+    `${baseURL}/${demografi.regions.village}`,
+    demografi
+  );
   return response.data;
 };
 
