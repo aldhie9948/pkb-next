@@ -1,11 +1,12 @@
-import React, { useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { FaTimesCircle, FaTimes } from 'react-icons/fa';
 import { IoIosInformationCircle } from 'react-icons/io';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setModalHidden, setModalShow } from '../reducers/modalReducer';
 
 const Modal = React.forwardRef(({ title = 'modal title', children }, ref) => {
   const modalRefs = useRef();
+  const visible = useSelector((s) => s.modal.status);
   const dispatch = useDispatch();
 
   const openHandler = () => {
@@ -28,6 +29,19 @@ const Modal = React.forwardRef(({ title = 'modal title', children }, ref) => {
       closeHandler();
     },
   }));
+
+  useEffect(() => {
+    const removeClassModal = () => {
+      if (!visible) {
+        document?.querySelector('body')?.classList.remove('open-modal');
+      }
+    };
+    modalRefs.current.addEventListener('close', removeClassModal);
+
+    return () => {
+      modalRefs.current.removeEventListener('close', removeClassModal);
+    };
+  }, []);
 
   return (
     <dialog
