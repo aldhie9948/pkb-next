@@ -39,7 +39,7 @@ const Modal = React.forwardRef(({ title = 'modal title', children }, ref) => {
     modalRefs.current.addEventListener('close', removeClassModal);
 
     return () => {
-      modalRefs.current.removeEventListener('close', removeClassModal);
+      modalRefs.current?.removeEventListener('close', removeClassModal);
     };
   }, []);
 

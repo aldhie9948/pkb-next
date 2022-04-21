@@ -172,10 +172,10 @@ const Demografi = () => {
     return (
       <div className='accordion break-inside-avoid'>
         <div className='py-2'>
-          <div className='bg-white rounded shadow'>
+          <div className='bg-white rounded-md shadow-md'>
             <div
               onClick={pulldownAccordionHandler}
-              className='accordion-header flex justify-between cursor-pointer p-4 bg-green-100/50 hover:bg-green-100'
+              className='accordion-header flex justify-between cursor-pointer p-4 bg-green-400/50 hover:bg-green-400 rounded-md'
             >
               <div className='title flex gap-4'>
                 {icons ? (
@@ -183,9 +183,9 @@ const Demografi = () => {
                 ) : (
                   <AiFillCaretRight className='my-auto' />
                 )}
-                <div className='font-bold sm:text-lg text-sm'>
-                  Kec. {district.name}{' '}
-                  <small className='bg-blue-400/20 py-[2px] px-3 rounded-xl shadow text-blue-400 text-xs'>
+                <div className='font-bold sm:text-lg text-sm flex gap-2'>
+                  <div className='my-auto'>Kec. {district.name} </div>
+                  <small className='bg-white py-[2px] px-3 rounded-xl shadow-md text-blue-400 text-xs block my-auto'>
                     {demografi?.filter(
                       (f) => f.regions.district === district.id
                     ) &&
@@ -196,7 +196,7 @@ const Demografi = () => {
                   </small>
                 </div>
               </div>
-              <div className='icons flex gap-2'>
+              <div className='icons flex gap-2 my-auto'>
                 <small className='block my-auto'>
                   {
                     demografi?.filter((f) => f.regions.district === district.id)
